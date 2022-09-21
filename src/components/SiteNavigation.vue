@@ -26,7 +26,7 @@
             hover:text-weather-secondary
             duration-150
             cursor-pointer
-          "
+          " @click="toggleModal"
         ></i>
         <i
           class="
@@ -81,4 +81,9 @@
   <script setup>
 import { RouterLink } from "vue-router";
 import BaseModal from "./BaseModal.vue";
+
+const modalActive = ref(null);
+const toggleModal = () =>{
+  modalActive.value = !modalActive.value;
+}
 </script>
