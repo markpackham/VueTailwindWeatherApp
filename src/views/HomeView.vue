@@ -12,6 +12,13 @@
         class="absolute bg-weather-secondary text-white w-full shadow-md py-2 px-1 top-[66px]"
         v-if="mapboxSearchResults"
       >
+      <p v-if="searchError">
+      Sorry something went wrong. {{ searchError.value }}
+      </p>
+      <p v-if="!searchError && mapboxSearchResults === 0">
+        Sorry no results for your search.
+      </p>
+      <template v-else>
         <li
           v-for="searchResult in mapboxSearchResults"
           :key="searchResult.id"
@@ -20,6 +27,7 @@
         >
           {{ searchResult.place_name }}
         </li>
+      </template>
       </ul>
     </div>
   </main>
@@ -33,15 +41,20 @@ const mapboxAPIKey =
 const searchQuery = ref("");
 const queryTimeout = ref(null);
 const mapboxSearchResults = ref(null);
+const searchError = ref(null);
 
 const getSearchResults = () => {
   clearTimeout(queryTimeout.value);
   queryTimeout.value = setTimeout(async () => {
     if (searchQuery.value !== "") {
-      const result = await axios.get(
+try {
+  const result = await axios.get(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchQuery.value}.json?access_token=${mapboxAPIKey}&types=place`
       );
       mapboxSearchResults.value = result.data.features;
+} catch () {
+  searchError.value = true;
+}     
       return;
     }
     mapboxSearchResults.value = null;
