@@ -38,10 +38,14 @@
           "
         ></i>
       </div>
+
+      <BaseModal>
+      <h1>Hello From Modal</h1></BaseModal>
     </nav>
   </header>
 </template>
   
   <script setup>
 import { RouterLink } from "vue-router";
+import BaseModal from "./BaseModal.vue";
 </script>
