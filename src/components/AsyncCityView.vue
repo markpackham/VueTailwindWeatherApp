@@ -115,6 +115,8 @@ import axios from "axios";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
+
 const getWeatherData = async () => {
     try {
         const weatherData = await axios.get(
@@ -140,4 +142,8 @@ const getWeatherData = async () => {
     }
 };
 const weatherData = await getWeatherData();
+
+const removeCity = () => {
+    const cities = JSON.parse(localStorage.getItem("savedCities"));
+}
 </script>
