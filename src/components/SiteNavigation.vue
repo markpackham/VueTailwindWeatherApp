@@ -53,16 +53,29 @@
 
 <script setup>
 import { RouterLink } from "vue-router";
+import { uid } from "uid";
 import { ref } from "vue";
 import BaseModal from "./BaseModal.vue";
 
 const savedCities = ref([]);
+const route = useRoute();
 const addCity = () => {
   if (localStorage.getItem['savedCities']) {
     savedCities.value = JSON.parse(localStorage.getItem("savedCities"))
   }
 
-  const locationObj = {};
+  const locationObj = {
+    id: uid(),
+    state: route.params.state,
+    city: route.params.city,
+    coords: {
+      lat: route.query.lat,
+      lng: route.query.lng,
+    }
+  };
+
+  savedCities.value.push(locationObj);
+  localStorage.setItem('savedCities', JSON.stringify(savedCities.value));
 }
 
 const modalActive = ref(null);
