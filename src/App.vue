@@ -1,7 +1,11 @@
 <template>
   <div class="flex flex-col min-h-screen font-Roboto bg-weather-primary">
     <SiteNavigation />
-    <RouterView />
+    <RouterView v-slot="{Component}">
+      <Transition>
+        <component :is="Component" />
+      </Transition>
+    </RouterView>
   </div>
 </template>
 
@@ -14,6 +18,7 @@ import SiteNavigation from "./components/SiteNavigation.vue";
 .page-enter-active {
   transition: 600ms ease all;
 }
+
 .page-enter-from {
   opacity: 0;
 }
