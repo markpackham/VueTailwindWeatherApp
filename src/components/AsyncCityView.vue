@@ -112,11 +112,9 @@
   
 <script setup>
 import axios from "axios";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
-const router = useRouter();
-
 const getWeatherData = async () => {
     try {
         const weatherData = await axios.get(
@@ -136,9 +134,6 @@ const getWeatherData = async () => {
                 utc + 1000 * weatherData.data.timezone_offset;
         });
 
-        // Flicker delay for 1 second
-        await new Promise((res) => setTimeout(res, 1000))
-
         return weatherData.data;
     } catch (err) {
         console.log(err);
@@ -146,12 +141,18 @@ const getWeatherData = async () => {
 };
 const weatherData = await getWeatherData();
 
+const router = useRouter();
 const removeCity = () => {
     const cities = JSON.parse(localStorage.getItem("savedCities"));
-    const updatedCities = cities.filter((city) => city.id !== route.query.id);
-    localStorage.setItem('savedCities', JSON.stringify(updatedCities));
+    const updatedCities = cities.filter(
+        (city) => city.id !== route.query.id
+    );
+    localStorage.setItem(
+        "savedCities",
+        JSON.stringify(updatedCities)
+    );
     router.push({
-        name: 'home'
+        name: "home",
     });
-}
+};
 </script>
